@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net5.0</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+    Any dep we reference here will automatically be loaded in our ALC.
+    -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="YamlDotNet" Version="13.7.1" />
+
+    <!--
+    Allows our main module to access any internals inside this assembly.
+    -->
+    <InternalsVisibleTo Include="ALCResolver" />
+  </ItemGroup>
+</Project>

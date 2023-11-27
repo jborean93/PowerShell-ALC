@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net5.0</TargetFrameworks>
+    <LangVersion>10.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net5.0' ">
+    <!--
+    For PowerShell 7 we can load S.M.A at the version desired. This allows us
+    to use newer features with preprocessor directives. The PrivateAssets must
+    be set to all as PowerShell provides these assets at runtime.
+    -->
+    <PackageReference Include="System.Management.Automation" Version="7.1.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+    <!--
+    For PowerShell 5.1 we reference the standard library which provides a
+    baseline API for WinPS 5.1 and PS 7+. The PrivateAssets must also be set
+    to all as PowerShell provides them at runtime.
+    -->
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+    Any dep we reference here will automatically be loaded in our ALC.
+    -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="YamlDotNet" Version="13.7.1" />
+    <!--
+    Allows us to reference any type in our ALCLoader.Shared assembly. This can
+    provide a common set of classes we can exchange with PowerShell as it's
+    loaded in the default AppDomain.
+    -->
+    <ProjectReference Include="../ALCLoader.Shared/ALCLoader.Shared.csproj" />
+  </ItemGroup>
+</Project>

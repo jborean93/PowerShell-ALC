@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--We build an assembly for both WinPS and PS.-->
+    <TargetFrameworks>net472;net5.0</TargetFrameworks>
+    <!--Not needed but makes it nicer to write in C# at this version-->
+    <LangVersion>10.0</LangVersion>
+    <!--Not needed but using Nullable is highly recommended-->
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+    Allows our main module to access any internals inside this assembly.
+    -->
+    <InternalsVisibleTo Include="ALCLoader" />
+  </ItemGroup>
+</Project>
