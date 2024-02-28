@@ -21,7 +21,7 @@ I personally recommend the [ALC Loader](./ALCLoader/README.md) method when start
 + Cmdlets can interact directly with the deps without a wrapper assembly making the code simpler
 
 An ALC typically needs to be used as a binary module but it is technically possible to use it in a pure PowerShell script module.
-See [ALC ScriptModule](./ALCScriptModule/README.md) or [ALC Pure ScriptModule](./ALCPureScriptModule/README.md) for more details on this approach.
+See [ALC ScriptModule](./ALCScriptModule/README.md), [ALC Pure ScriptModule](./ALCPureScriptModule/README.md), or [ALC Script LoadContext](./ALCScriptLoadContext/README.md) for more details on this approach.
 
 ## Testing
 The `./test.ps1` script can be used to build an example module and run through some basic scenarios.
