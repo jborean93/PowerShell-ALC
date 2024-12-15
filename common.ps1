@@ -1,5 +1,6 @@
 using namespace System.IO
 using namespace System.Net
+using namespace System.Runtime.InteropServices
 
 # Common code used in the build.ps1 scripts of each process
 
@@ -95,18 +96,33 @@ Function Get-PowerShell {
         [string]$Version
     )
 
+    $releaseArch = switch ([RuntimeInformation]::ProcessArchitecture) {
+        X64 { 'x64' }
+        X86 { 'x86' }
+        ARM64 { 'arm64' }
+        default {
+            $err = [ErrorRecord]::new(
+                [Exception]::new("Unsupported archecture requests '$_'"),
+                "UnknownArch",
+                [ErrorCategory]::InvalidArgument,
+                $_
+            )
+            $PSCmdlet.ThrowTerminatingError($err)
+        }
+    }
+
     $targetFolder = Join-Path $PSScriptRoot bin
     if (-not (Test-Path -LiteralPath $targetFolder)) {
         New-Item -Path $targetFolder -ItemType Directory | Out-Null
     }
 
     if (-not $IsCoreCLR -or $IsWindows) {
-        $downloadUrl = "https://github.com/PowerShell/PowerShell/releases/download/v$Version/PowerShell-$Version-win-x64.zip"
+        $downloadUrl = "https://github.com/PowerShell/PowerShell/releases/download/v$Version/PowerShell-$Version-win-$releaseArch.zip"
         $fileName = "pwsh-$Version.zip"
         $nativeExt = ".exe"
     }
     else {
-        $downloadUrl = "https://github.com/PowerShell/PowerShell/releases/download/v$Version/powershell-$Version-linux-x64.tar.gz"
+        $downloadUrl = "https://github.com/PowerShell/PowerShell/releases/download/v$Version/powershell-$Version-linux-$releaseArch.tar.gz"
         $fileName = "pwsh-$Version.tar.gz"
         $nativeExt = ""
     }

@@ -99,3 +99,4 @@ Thanks to
 
 + @seeminglyscience who came up with the `ALC Loader` example and helped me through some questions I had
 + @JustinGrote who came up with some ideas to try out and talk through some scenarios to test
++ @mdgrs-mei for finding a bug in my `ALCResolver` example and working through some of the edge cases

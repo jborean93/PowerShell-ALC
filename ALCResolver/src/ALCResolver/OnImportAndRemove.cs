@@ -64,7 +64,7 @@ public class OnModuleImportAndRemove : IModuleAssemblyInitializer, IModuleAssemb
 
     private static bool IsSatisfyingAssembly(AssemblyName requiredAssemblyName, string assemblyPath)
     {
-        if (requiredAssemblyName.Name == "ALCResolver.Private" || !File.Exists(assemblyPath))
+        if (requiredAssemblyName.Name == "ALCResolver" || !File.Exists(assemblyPath))
         {
             return false;
         }
