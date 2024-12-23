@@ -29,6 +29,6 @@ The names of the C# projects used here don't have to be exactly the same, the ke
 When PowerShell loads `ALCResolver` it will run the import the `ALCResolver` assembly and load any cmdlets inside that in the module.
 It will also find the [OnImportAndRemove](./src/ALCResolver/OnImportAndRemove.cs) instance and call the `OnImport()` method during the import.
 This method sets up the `ALC` and then loads `ALCResolver.Private` into that ALC.
-Any assemblies `ALCResolver.Private` needs during runtime will either use what is already available or if that fails will load the assembly from the bin directory of the module into the ALC.
+Any assemblies `ALCResolver.Private` needs during runtime will load the assembly from the bin directory of the module into the ALC.
 It is possible to just use the one assembly where it sets up the `OnImportAndRemove` logic with the ACL but this runs the risk of loading the dependency if it is resolved by the runtime before `OnImportAndRemove` is called.
 For example this may happen if you have a type that is a subclass of one in a dependency.

@@ -42,10 +42,8 @@ The tests go through 6 different scenarios:
 |WinPS Same version already loaded|Already loaded assembly|
 |WinPS Older version already loaded|Loads the module's assembly|
 |PS|Loads the module's assembly in an ALC|
-|PS Same version already loaded|Loads the module's assembly in an ALC*|
+|PS Same version already loaded|Loads the module's assembly in an ALC|
 |PS Older version already loaded|Loads the module's assembly in an ALC|
-
-_*: `ALCResolver` will use the existing loaded assembly rather than load a new one in the ALC._
 
 The main difference between WinPS and PS here is that PS will always load our dependencies in the ALC while WinPS only load our assembly if there is not an existing assembly that matches the name/version.
 WinPS can load the same assembly at different versions so this should avoid any version conflicts in the majority of cases.
