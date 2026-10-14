@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 #endif
 
-namespace ALCLoader.Shared;
+namespace ALCLoader;
 
 internal class SharedUtil
 {

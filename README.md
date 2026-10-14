@@ -11,14 +11,15 @@ I would like to call out the following links which do cover a lot of the ground 
 
 There are two ways I know how to use an ALC in PowerShell modules:
 
-+ [ALC Loader](./ALCLoader/README.md) - loads our binary module in a ALC directly
-+ [ALC Resolver](./ALCLoader/README.md) - loads our binary module normally and the deps with an ALC resolver
++ [ALC Loader (My Recommendation)](./ALCLoader/README.md) - loads our binary module in a ALC directly
++ [ALC Resolver](./ALCResolver/README.md) - loads our binary module normally and the deps with an ALC resolver
 
 These are not official names but how I will refer to these methods going forward.
 I personally recommend the [ALC Loader](./ALCLoader/README.md) method when starting a new project as:
 
-+ It ensures all deps are placed in the ALC and nothing is missed
++ It ensures all deps listed in the module's `.deps.json` are placed in the ALC and nothing is missed
 + Cmdlets can interact directly with the deps without a wrapper assembly making the code simpler
++ Public types in the module assembly can be used as cmdlet parameters and outputs
 
 An ALC typically needs to be used as a binary module but it is technically possible to use it in a pure PowerShell script module.
 See [ALC ScriptModule](./ALCScriptModule/README.md), [ALC Pure ScriptModule](./ALCPureScriptModule/README.md), or [ALC Script LoadContext](./ALCScriptLoadContext/README.md) for more details on this approach.
@@ -51,9 +52,13 @@ WinPS can load the same assembly at different versions so this should avoid any 
 ## Things to Avoid
 When using an ALC you should avoid:
 
-+ Use an ALC type as your cmdlet's parameters or outputs
++ Use a type from a dependency loaded in the ALC as your cmdlet's parameters or outputs
 
-It is possible to output an object of a type from an assembly loaded in an ALC but it should be avoided as much as possible.
+With the [ALC Loader](./ALCLoader/README.md) method the module assembly itself is imported with `Import-Module -Assembly` so PowerShell can resolve the public types it defines even if the module assembly is in the ALC.
+These types are safe to use as parameters and outputs, see [Public Types](./ALCLoader/README.md#public-types) for more details.
+The problem is with the types from the dependencies of the module that are loaded in the ALC.
+
+It is possible to output an object of a dependency type from an assembly loaded in an ALC but it should be avoided as much as possible.
 This won't cause PowerShell to then load the assembly but it will be unable to reference the type.
 For example this won't work because `[Assembly.In.Alc.Type]` is not resolvable in PowerShell and if it was the type won't match the type loaded in the ALC.
 

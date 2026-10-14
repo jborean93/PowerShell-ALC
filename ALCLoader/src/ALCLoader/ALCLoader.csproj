@@ -11,9 +11,16 @@
     <!--
     For PowerShell 7 we can load S.M.A at the version desired. This allows us
     to use newer features with preprocessor directives. The PrivateAssets must
-    be set to all as PowerShell provides these assets at runtime.
+    be set to all as PowerShell provides these assets at runtime. The runtime
+    assets are also excluded so S.M.A is not listed in ALCLoader.deps.json
+    and the ALC falls back to the copy PowerShell has already loaded.
     -->
-    <PackageReference Include="System.Management.Automation" Version="7.1.0" PrivateAssets="all" />
+    <PackageReference Include="System.Management.Automation" Version="7.1.0" ExcludeAssets="runtime" PrivateAssets="all" />
+    <!--
+    References the loader so it is published alongside our module. It is
+    only needed on PowerShell 7.
+    -->
+    <ProjectReference Include="../ALCLoader.Loader/ALCLoader.Loader.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
@@ -27,15 +34,11 @@
 
   <ItemGroup>
     <!--
-    Any dep we reference here will automatically be loaded in our ALC.
+    Any dep we reference here is listed in ALCLoader.deps.json and will
+    automatically be loaded in our ALC. Do not set PrivateAssets="all" on a
+    dep that should be bundled, the SDK will not publish it.
     -->
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="YamlDotNet" Version="13.7.1" />
-    <!--
-    Allows us to reference any type in our ALCLoader.Shared assembly. This can
-    provide a common set of classes we can exchange with PowerShell as it's
-    loaded in the default AppDomain.
-    -->
-    <ProjectReference Include="../ALCLoader.Shared/ALCLoader.Shared.csproj" />
   </ItemGroup>
 </Project>
